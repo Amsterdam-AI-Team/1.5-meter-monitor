@@ -1,4 +1,4 @@
-inference/output/
+output/
 yolov5s.pt
 meta_data/
 loc_points.p
