@@ -1,0 +1,11 @@
+inference/output/
+yolov5s.pt
+meta_data/
+loc_points.p
+*.pyc 
+__pycache__/
+.mypy_cache/
+.idea/
+runs/
+env/
+venv/
