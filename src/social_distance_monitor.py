@@ -80,8 +80,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
             # Process detections
             for idx_image, det in enumerate(pred):  # detections per image
                 if self.webcam:  # batch_size >= 1
-                    # Flip screen in horizontal direction
-                    path_frame, im0 = path[idx_image], im0s[idx_image][:, ::-1, :].copy()
+                    path_frame, im0 = path[idx_image], im0s[idx_image].copy()
                     print_details = '%g: ' % idx_image
                 else:
                     path_frame, im0 = path, im0s
@@ -132,6 +131,10 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                 # Count label occurrences per frame
                 risk_count = self.label_occurences(objects_base)
 
+                if self.view_img:
+                    # Flip screen in horizontal direction
+                    im0 = im0[:, ::-1, :]
+
                 # Plot legend
                 if self.opt.add_legend:
                     im0 = plot.add_risk_counts(im0, risk_count, self.opt.lang)
@@ -149,7 +152,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                     if self.resolution:
                         # Interpolation INTER_AREA is better, INTER_LINEAR (default) is faster
                         im0 = cv2.resize(im0, self.resolution)
-                    cv2.imshow(window_name, im0)
+                    cv2.imshow(window_name, im0) # im0[:, ::-1, :]
                     if cv2.waitKey(1) == ord('q'):  # q to quit
                         raise StopIteration
 
