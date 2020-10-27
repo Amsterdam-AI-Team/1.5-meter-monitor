@@ -2,8 +2,10 @@
 Constants and current configuration of the 1.5 meter monitor
 """
 # pylint: disable=invalid-name
+from dataclasses import dataclass
 
-class Color: #pylint: disable=too-many-instance-attributes,too-few-public-methods
+@dataclass
+class Color: #pylint: disable=too-many-instance-attributes
     """ Common colors """
     RED = (0, 0, 255)
     GREEN = (0, 255, 0)
