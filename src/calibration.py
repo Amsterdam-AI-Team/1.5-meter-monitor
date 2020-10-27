@@ -138,7 +138,5 @@ class SizeCalibrator:
             (warped_pt[0][0] - warped_pt[2][0]) ** 2
             + (warped_pt[0][1] - warped_pt[2][1]) ** 2
         )
-        # pnts = np.array(self.mouse_pts[:4], np.int32)
-        # cv2.polylines(self.image, [pnts], True, Color.GREY, thickness=2)
 
         return self.distance_w, self.distance_h

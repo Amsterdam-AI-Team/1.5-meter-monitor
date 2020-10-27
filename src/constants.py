@@ -2,10 +2,8 @@
 Constants and current configuration of the 1.5 meter monitor
 """
 # pylint: disable=invalid-name
-from dataclasses import dataclass
 
-@dataclass
-class Color: #pylint: disable=too-many-instance-attributes
+class Color: #pylint: disable=too-many-instance-attributes,too-few-public-methods
     """ Common colors """
     RED = (0, 0, 255)
     GREEN = (0, 255, 0)
@@ -33,15 +31,14 @@ CLOSENESS_LEVELS = {
 CLOSENESS_LEVELS_MINION = {
     0: {'name': 'safe', 'text': {'NL': 'Veilig', 'EN': 'Safe'},
         'color': Color.MINION_YELLOW, 'dist': -1,
-        'icon': "./media/icons/minions/minion_safe.png"},
+        'icon': "./media/icons/minions/minion_yellow.png"},
     1: {'name': 'low_risk', 'text': {'NL': 'Laag Risico', 'EN': 'Low Risk'},
         'color': Color.MINION_GREEN, 'dist': 180,
-        'icon': "./media/icons/minions/minion_low.png"},
+        'icon': "./media/icons/minions/minion_green.png"},
     2: {'name': 'high_risk', 'text': {'NL': 'Hoog Risico', 'EN': 'High Risk'},
         'color': Color.MINION_RED, 'dist': 150,
-        'icon': "./media/icons/minions/minion_high.png"},
+        'icon': "./media/icons/minions/minion_red.png"},
 }
-
 
 CLOSENESS_LEVELS_SIMPLE = {
     0: {'name': 'safe', 'text': {'NL': 'Veilig', 'EN': 'Safe'},

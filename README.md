@@ -4,7 +4,7 @@ The 1.5 meter monitor is a system created to make users aware of social distanci
 It detects pedestrians with the open-source YOLOv5 convolutional neural network. 
 It uses cheap and ubiquitous hardware, such as a simple webcam, computer with GPU (or edge devices) and any screen
 to create awareness for anybody within the field of view of the camera to keep social distance. 
-It does so by displaying visual information on an augmented reality interface, or by playing an audio signal. 
+It does so by displaying visual information on an augmented reality interface. 
 The persons that are detected are made aware of if they are keeping sufficient distance from others within their proximity.
 Distances between detected persons are calculated per frame by using a calibration for the position of the camera,
 an area of interest is defined and an example of 1.5x1.5 meter is given to the system as input.
@@ -13,7 +13,7 @@ By default, the calculated distances are classified as 'Safe', 'Low risk' or 'Hi
 The system does not store any visual information, and when detected people will be displayed with a smiley overlay to prevent visual recognition.
 
 
-![](https://github.com/Amsterdam-AI-Team/yolov5-social-distancing/blob/master/media/README_files/emojis.png)
+![](https://github.com/Amsterdam-AI-Team/1.5-meter-monitor/blob/master/media/README_files/emojis.png)
 
 ---
 
@@ -23,7 +23,7 @@ The system does not store any visual information, and when detected people will 
 There are the following folders in the structure:
 1) [`src`](./src): Folder for all source files specific to this project
 3) [`weights`](./weights): Folder containing pre-trained model weights
-4) [`media`](./media): Folder containing media files (icons, audio, video)
+4) [`media`](./media): Folder containing media files (icons, video)
 
 ---
 
@@ -32,11 +32,15 @@ There are the following folders in the structure:
 
 1) Clone this repository:
     ```bash
-    git clone https://github.com/Amsterdam-AI-Team/yolov5-social-distancing
+    git clone https://github.com/Amsterdam-AI-Team/1.5-meter-monitor
     ```
 2) Install all dependencies:
     ```bash
     pip install -r requirements.txt
+    ```
+3) Initialize the YOLOv5 submodule
+	```bash
+	git submodule update --init
     ```
 
 ---
@@ -69,10 +73,10 @@ $ python main.py --source media/videos/example.mp4
 ### Camera Calibration
 
 
-![](https://github.com/Amsterdam-AI-Team/yolov5-social-distancing/blob/master/media/README_files/ROI_selection.png)
+![](https://github.com/Amsterdam-AI-Team/1.5-meter-monitor/blob/master/media/README_files/ROI_selection.png)
 
 Distances are calculated by using a calibration for the position of the camera, 
-an region of interest is defined and an example of 1.5x1.5 meter is given to the system as input. 
+a region of interest is defined and an example of 1.5x1.5 meter is given to the system as input. 
 The region of interest is projected in a birds eye view and 
 the 1.5x1.5 meter example is used to calculate the distance between the pedestrians.
 

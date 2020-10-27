@@ -1,7 +1,7 @@
 output/
-yolov5s.pt
 meta_data/
 loc_points.p
+mouse_points
 *.pyc 
 __pycache__/
 .mypy_cache/
