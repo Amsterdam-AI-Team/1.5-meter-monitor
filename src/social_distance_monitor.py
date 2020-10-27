@@ -24,7 +24,7 @@ from yolov5.utils.general import (
     check_img_size, non_max_suppression, scale_coords, xyxy2xywh, set_logging)
 from yolov5.utils.torch_utils import select_device, time_synchronized
 
-from src.constants import CLOSENESS_LEVELS
+from src.constants import CLOSENESS_LEVELS, BANNER
 from src import utils
 from src import plot
 
@@ -50,6 +50,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
         self.half = self.device.type != 'cpu'  # half precision only supported on CUDA
         self.model, self.imgsz, self.class_names = self.load_model()
         self.overlay_images = self.get_overlay_icons()
+        self.banner_icon = self.get_banner_icon()
         self.dataset = self.set_dataloader()
         self.meta_data_writer = self.get_meta_data_writer()
 
@@ -126,7 +127,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                 objects_base = self.monitor_distance_current_boxes(objects_base, im0, 1)
 
                 # Plot box with highest label on person
-                plot.draw_boxes(objects_base, im0, self.overlay_images, 1)
+                plot.draw_boxes(objects_base, im0, self.overlay_images, 1,True)
 
                 # Count label occurrences per frame
                 risk_count = self.label_occurrences(objects_base)
@@ -138,6 +139,10 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                 # Plot legend
                 if self.opt.add_legend:
                     im0 = plot.add_risk_counts(im0, risk_count, self.opt.lang)
+
+                # Plot banner
+                if self.opt.add_banner:
+                    im0 = plot.add_banner(im0, self.banner_icon, self.opt.lang)
 
                 if self.debug:
                     # Print frames per second
@@ -284,6 +289,13 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
             overlay_images.append(cv2.imread(CLOSENESS_LEVELS[level]['icon'], -1))
 
         return overlay_images
+
+    def get_banner_icon(self):
+        """ Set banner once in memory """
+
+        banner_icon = cv2.imread(BANNER, -1)
+
+        return banner_icon 
 
     def load_model(self):
         """ Load model """

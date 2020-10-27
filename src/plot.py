@@ -6,7 +6,7 @@ import math
 import cv2
 import numpy as np
 
-from src.constants import CLOSENESS_LEVELS, Color
+from src.constants import CLOSENESS_LEVELS, Color, BANNER_WIDTH
 
 
 def image_in_box(frame, box, overlay_image):
@@ -98,6 +98,32 @@ def add_risk_counts(frame, risk_count, lang='EN'):
 
     frame = np.vstack((frame, pad))
 
+    return frame
+
+
+def add_banner(frame, banner_icon, lang='NL'):
+    """ Add a banner to the screen, and rescale with padding """
+    old_size = banner_icon.shape[:2] # height, width
+
+    frame_size = frame.shape[:2]
+
+    ratio = old_size[0]/frame_size[0]
+
+    resized_banner_icon = cv2.resize(banner_icon,(int(old_size[0]/ratio*BANNER_WIDTH),int(old_size[1]/ratio)))
+
+    top = int((frame_size[0]-resized_banner_icon.shape[0])/2)
+    bottom = int((frame_size[0]-resized_banner_icon.shape[0])/2)
+    left = 0
+    right = 0
+
+    if top + bottom + resized_banner_icon.shape[0] < frame_size[0]:
+        top+=1
+    if top + bottom + resized_banner_icon.shape[0] > frame_size[0]:
+        top-=1
+
+    resized_banner_icon_width_padding = cv2.copyMakeBorder(resized_banner_icon, top, bottom, left, right, cv2.BORDER_CONSTANT,value=Color.WHITE)
+
+    frame = np.hstack((frame, resized_banner_icon_width_padding))
     return frame
 
 
