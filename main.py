@@ -39,6 +39,7 @@ def arg_parser():
     parser.add_argument('--update', action='store_true', help='update all models')
     parser.add_argument('--augment', action='store_true', help='augmented inference')
     parser.add_argument('--add-legend', action='store_true', help='add legend with risk counts')
+    parser.add_argument('--add-banner', action='store_true', help='add banner')
     parser.add_argument('--lang', type=str, default='NL', help='language for text in legend')
 
     return parser.parse_args()

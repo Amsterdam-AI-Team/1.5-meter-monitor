@@ -18,6 +18,9 @@ class Color: #pylint: disable=too-many-instance-attributes
     MINION_YELLOW = (51, 212, 244)
     MINION_RED = (57, 67, 208)
 
+BANNER = "./media/icons/banners/banner_1.jpg"
+BANNER_WIDTH = 0.4
+
 CLOSENESS_LEVELS = {
     0: {'name': 'safe', 'text': {'NL': 'Veilig', 'EN': 'Safe'},
         'color': Color.GREEN, 'dist': -1,
