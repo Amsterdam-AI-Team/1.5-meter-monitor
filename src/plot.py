@@ -53,6 +53,7 @@ def overlay_image_alpha(img, img_overlay, pos, alpha_mask): #pylint: disable=too
             + alpha_inv * img[y1:y2, x1:x2, channel])
 
 
+
 def draw_boxes(objects_base, im0_arg, overlay_images, thickness, reference_dot=False):
     """ Draw bboxes and icons """
     for i in range(len(objects_base)):
@@ -101,29 +102,29 @@ def add_risk_counts(frame, risk_count, lang='EN'):
     return frame
 
 
-def add_banner(frame, banner_icon, lang='NL'):
+def add_banner(frame, banner_icon):
     """ Add a banner to the screen, and rescale with padding """
-    old_size = banner_icon.shape[:2] # height, width
+    original_height, original_width = banner_icon.shape[:2]
+    frame_height, frame_width = frame.shape[:2]
+    original_ratio = original_width / original_height
 
-    frame_size = frame.shape[:2]
+    resized_width = int(frame_width * BANNER_WIDTH)
+    resized_height = min(int(resized_width / original_ratio), frame_height)
+    resized_banner_icon = cv2.resize(banner_icon, (resized_width, resized_height))
 
-    ratio = old_size[0]/frame_size[0]
+    space_to_fill = frame_height - resized_banner_icon.shape[0]
 
-    resized_banner_icon = cv2.resize(banner_icon,(int(old_size[0]/ratio*BANNER_WIDTH),int(old_size[1]/ratio)))
+    top = math.ceil(space_to_fill / 2)
+    bottom = math.floor(space_to_fill / 2)
 
-    top = int((frame_size[0]-resized_banner_icon.shape[0])/2)
-    bottom = int((frame_size[0]-resized_banner_icon.shape[0])/2)
-    left = 0
-    right = 0
-
-    if top + bottom + resized_banner_icon.shape[0] < frame_size[0]:
-        top+=1
-    if top + bottom + resized_banner_icon.shape[0] > frame_size[0]:
-        top-=1
-
-    resized_banner_icon_width_padding = cv2.copyMakeBorder(resized_banner_icon, top, bottom, left, right, cv2.BORDER_CONSTANT,value=Color.WHITE)
+    resized_banner_icon_width_padding = cv2.copyMakeBorder(
+        resized_banner_icon,
+        top=top, bottom=bottom, left=0, right=0,
+        borderType=cv2.BORDER_CONSTANT,
+        value=Color.WHITE)
 
     frame = np.hstack((frame, resized_banner_icon_width_padding))
+
     return frame
 
 
