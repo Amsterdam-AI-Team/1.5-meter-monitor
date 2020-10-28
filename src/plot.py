@@ -8,6 +8,7 @@ import numpy as np
 
 from src.constants import CLOSENESS_LEVELS, Color
 
+
 def image_in_box(frame, box, overlay_image):
     """ Overlay a box with an image """
     x, y, width, height = box[:]
@@ -18,6 +19,7 @@ def image_in_box(frame, box, overlay_image):
         img_small[:, :, 0:3],
         (x, y),
         img_small[:, :, 3] / 255.0)
+
 
 def overlay_image_alpha(img, img_overlay, pos, alpha_mask): #pylint: disable=too-many-locals
     """
@@ -47,8 +49,9 @@ def overlay_image_alpha(img, img_overlay, pos, alpha_mask): #pylint: disable=too
 
     for channel in range(img.shape[2]):
         img[y1:y2, x1:x2, channel] = (
-                alpha * img_overlay[y1o:y2o, x1o:x2o, channel]
-                + alpha_inv * img[y1:y2, x1:x2, channel])
+            alpha * img_overlay[y1o:y2o, x1o:x2o, channel]
+            + alpha_inv * img[y1:y2, x1:x2, channel])
+
 
 def draw_boxes(objects_base, im0_arg, overlay_images, thickness, reference_dot=False):
     """ Draw bboxes and icons """
@@ -73,11 +76,14 @@ def draw_boxes(objects_base, im0_arg, overlay_images, thickness, reference_dot=F
                 cv2.circle(im0_arg, center_low, radius, CLOSENESS_LEVELS[level]['color'], thickness)
 
             # Draw bbox
-            cv2.rectangle(im0_arg, start_point, end_point, CLOSENESS_LEVELS[level]['color'],
+            cv2.rectangle(
+                im0_arg, start_point, end_point,
+                CLOSENESS_LEVELS[level]['color'],
                 thickness, cv2.LINE_AA)
 
         # Overlay image according to risk factor
         image_in_box(im0_arg, xywh, overlay_images[level])
+
 
 def add_risk_counts(frame, risk_count, lang='EN'):
     """ Add a panel with risk counts """
@@ -94,6 +100,7 @@ def add_risk_counts(frame, risk_count, lang='EN'):
 
     return frame
 
+
 def dotline(src, point_1, point_2, color, thickness, discrete_line):
     """ Draw in src image a doted line from point_1 to point_2 """
 
@@ -103,6 +110,7 @@ def dotline(src, point_1, point_2, color, thickness, discrete_line):
 
     # Return tuple input point undistorted
     return src
+
 
 def discrete_contour(contour, discrete_line):
     """ Takes contour points to get a number of intermediate points """
@@ -125,25 +133,25 @@ def discrete_contour(contour, discrete_line):
             next_coordinate = contour[0]
 
         # Calculate length of segment
-        segment_lenth = math.sqrt(
+        segment_length = math.sqrt(
             (next_coordinate[0] - coordinate[0]) ** 2
             + (next_coordinate[1] - coordinate[1]) ** 2
         )
 
         # discrete_line: int distance to get a point by segment
-        divitions = segment_lenth / discrete_line  # Number of new point for current segment
+        divisions = segment_length / discrete_line  # Number of new point for current segment
         d_y = next_coordinate[1] - coordinate[1]  # Segment's height
         d_x = next_coordinate[0] - coordinate[0]  # Segment's width
 
-        if not divitions:
+        if not divisions:
             ddy = 0  # d_y value to sum in Y axis
             ddx = 0  # d_x value to sum in X axis
         else:
-            ddy = d_y / divitions  # d_y value to sum in Y axis
-            ddx = d_x / divitions  # d_X value to sum in X axis
+            ddy = d_y / divisions  # d_y value to sum in Y axis
+            ddx = d_x / divisions  # d_X value to sum in X axis
 
         # get new intermediate points in segment
-        for j in range(0, int(divitions)):
+        for j in range(0, int(divisions)):
             new_contour.append(
                 (int(coordinate[0] + (ddx * j)), int(coordinate[1] + (ddy * j)))
             )

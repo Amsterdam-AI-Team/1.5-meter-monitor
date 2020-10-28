@@ -129,7 +129,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                 plot.draw_boxes(objects_base, im0, self.overlay_images, 1)
 
                 # Count label occurrences per frame
-                risk_count = self.label_occurences(objects_base)
+                risk_count = self.label_occurrences(objects_base)
 
                 if self.view_img:
                     # Flip screen in horizontal direction
@@ -172,7 +172,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
 
         # Iterate to set label in objects_base, more advanced loop to avoid duplicates
         for i in range(len(objects_base)):
-            for j in range(i,len(objects_base)):
+            for j in range(i, len(objects_base)):
                 xyxy_1 = objects_base[i][0]
                 xyxy_2 = objects_base[j][0]
                 if xyxy_1 != xyxy_2:
@@ -181,9 +181,11 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                     center_low_1 = ((int(xyxy_1[2] + xyxy_1[0])) // 2, int(xyxy_1[3]))
                     center_low_2 = ((int(xyxy_2[2] + xyxy_2[0])) // 2, int(xyxy_2[3]))
 
-                    person_points = utils.get_transformed_points((xyxy_1, xyxy_2),
+                    person_points = utils.get_transformed_points(
+                        (xyxy_1, xyxy_2),
                         self.transform['perspective_transform'])
-                    dist = utils.calculate_real_distance(person_points[0], person_points[1],
+                    dist = utils.calculate_real_distance(
+                        person_points[0], person_points[1],
                         self.transform['distance_w'], self.transform['distance_h'])
 
                     for level in sorted(CLOSENESS_LEVELS, reverse=True):
@@ -191,11 +193,13 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                             # Plot distance line between two persons
                             if dotted_line:
                                 # Plot dotted line
-                                plot.dotline(im0_arg, center_low_1, center_low_2,
+                                plot.dotline(
+                                    im0_arg, center_low_1, center_low_2,
                                     CLOSENESS_LEVELS[level]['color'], thickness, 5)
                             else:
                                 # Plot normal line
-                                cv2.line(im0_arg, center_low_1, center_low_2,
+                                cv2.line(
+                                    im0_arg, center_low_1, center_low_2,
                                     CLOSENESS_LEVELS[level]['color'], thickness)
 
                             # Save the label
@@ -206,7 +210,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
 
         return objects_base
 
-    def label_occurences(self, objects_base):
+    def label_occurrences(self, objects_base):
         """ Counting label occurrences """
         risk_count = Counter(sublist[1] for sublist in objects_base)
 
@@ -306,10 +310,10 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
     def check_webcam(self, source):
         """ Check for webcam """
         return (
-                source.isnumeric()
-                or source.startswith('rtsp')
-                or source.startswith('http')
-                or source.endswith('.txt')
+            source.isnumeric()
+            or source.startswith('rtsp')
+            or source.startswith('http')
+            or source.endswith('.txt')
         )
 
     def create_dir(self, out_dir):
