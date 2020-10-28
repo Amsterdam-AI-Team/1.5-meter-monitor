@@ -22,6 +22,7 @@ class Color: #pylint: disable=too-many-instance-attributes
 
 BANNER = "./media/banners/banner_1.jpg"
 BANNER_WIDTH = 0.4
+LEGEND_HEIGHT = 0.2
 
 CLOSENESS_LEVELS = {
     0: {'name': 'safe', 'text': {'NL': 'Veilig', 'EN': 'Safe'},

@@ -6,7 +6,7 @@ import math
 import cv2
 import numpy as np
 
-from src.constants import CLOSENESS_LEVELS, Color, BANNER_WIDTH
+from src.constants import CLOSENESS_LEVELS, Color
 
 
 def image_in_box(frame, box, overlay_image):
@@ -21,7 +21,7 @@ def image_in_box(frame, box, overlay_image):
         img_small[:, :, 3] / 255.0)
 
 
-def overlay_image_alpha(img, img_overlay, pos, alpha_mask): #pylint: disable=too-many-locals
+def overlay_image_alpha(img, img_overlay, pos, alpha_mask):     #pylint: disable=too-many-locals
     """
     Overlay img_overlay on top of img at the position specified by
     pos and blend using alpha_mask.
@@ -51,8 +51,6 @@ def overlay_image_alpha(img, img_overlay, pos, alpha_mask): #pylint: disable=too
         img[y1:y2, x1:x2, channel] = (
             alpha * img_overlay[y1o:y2o, x1o:x2o, channel]
             + alpha_inv * img[y1:y2, x1:x2, channel])
-
-
 
 
 def draw_boxes(objects_base, im0_arg, overlay_images, thickness, reference_dot=False):
@@ -87,9 +85,13 @@ def draw_boxes(objects_base, im0_arg, overlay_images, thickness, reference_dot=F
         image_in_box(im0_arg, xywh, overlay_images[level])
 
 
-def add_risk_counts(frame, risk_count, lang='EN'):
+def add_risk_counts(frame, risk_count, legend_height, lang='EN'):
     """ Add a panel with risk counts """
-    pad = np.full((140, frame.shape[1], 3), Color.WHITE, dtype=np.uint8)
+    frame_height, frame_width = frame.shape[:2]
+    pad = np.full(
+        (int(legend_height * frame_height), frame_width, 3),
+        Color.WHITE, dtype=np.uint8)
+
     font = cv2.FONT_HERSHEY_SIMPLEX
     for level in CLOSENESS_LEVELS:
         count = risk_count[level]
@@ -103,13 +105,13 @@ def add_risk_counts(frame, risk_count, lang='EN'):
     return frame
 
 
-def add_banner(frame, banner_icon):
+def add_banner(frame, banner_icon, banner_wigth):
     """ Add a banner to the screen, and rescale with padding """
     original_height, original_width = banner_icon.shape[:2]
     frame_height, frame_width = frame.shape[:2]
     original_ratio = original_width / original_height
 
-    resized_width = int(frame_width * BANNER_WIDTH)
+    resized_width = int(frame_width * banner_wigth)
     resized_height = min(int(resized_width / original_ratio), frame_height)
     resized_banner_icon = cv2.resize(banner_icon, (resized_width, resized_height))
 

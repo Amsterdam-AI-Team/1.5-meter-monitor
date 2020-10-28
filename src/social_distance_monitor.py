@@ -24,7 +24,7 @@ from yolov5.utils.general import (
     check_img_size, non_max_suppression, scale_coords, xyxy2xywh, set_logging)
 from yolov5.utils.torch_utils import select_device, time_synchronized
 
-from src.constants import CLOSENESS_LEVELS, BANNER
+from src.constants import CLOSENESS_LEVELS, BANNER, BANNER_WIDTH, LEGEND_HEIGHT
 from src import utils
 from src import plot
 
@@ -138,11 +138,11 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
 
                 # Plot legend
                 if self.opt.add_legend:
-                    im0 = plot.add_risk_counts(im0, risk_count, self.opt.lang)
+                    im0 = plot.add_risk_counts(im0, risk_count, LEGEND_HEIGHT, self.opt.lang)
 
                 # Plot banner
                 if self.opt.add_banner:
-                    im0 = plot.add_banner(im0, self.banner_icon)
+                    im0 = plot.add_banner(im0, self.banner_icon, BANNER_WIDTH)
 
                 if self.debug:
                     # Print frames per second
@@ -274,7 +274,12 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                 # initialize the video writer
                 fps = vid_cap.get(cv2.CAP_PROP_FPS)
                 width = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+                if self.opt.add_banner:
+                    width = int((1 + BANNER_WIDTH) * width)
                 height = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+                if self.opt.add_legend:
+                    height = int((1 + LEGEND_HEIGHT) * height)
+
                 self.vid_writer = cv2.VideoWriter(
                     save_path,
                     cv2.VideoWriter_fourcc(*self.fourcc),
@@ -295,7 +300,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
 
         banner_icon = cv2.imread(BANNER, -1)
 
-        return banner_icon 
+        return banner_icon
 
     def load_model(self):
         """ Load model """
