@@ -142,7 +142,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
 
                 # Plot banner
                 if self.opt.add_banner:
-                    im0 = plot.add_banner(im0, self.banner_icon, self.opt.lang)
+                    im0 = plot.add_banner(im0, self.banner_icon)
 
                 if self.debug:
                     # Print frames per second
