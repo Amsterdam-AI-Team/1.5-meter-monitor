@@ -32,17 +32,18 @@ There are the following folders in the structure:
 
 1) Clone this repository:
     ```bash
-    git clone https://github.com/Amsterdam-AI-Team/1.5-meter-monitor
+    git clone --recurse-submodules https://github.com/Amsterdam-AI-Team/1.5-meter-monitor
     ```
+    If you clone the repo without the --recurse-submodules argument,
+    you could also use the following command to initialize the YOLOv5 submodule:
+    ```
+    git submodule update --init --recursive
+    ```
+
 2) Install all dependencies:
     ```bash
     pip install -r requirements.txt
     ```
-3) Initialize the YOLOv5 submodule
-	```bash
-	git submodule update --init
-    ```
-
 ---
 
 
