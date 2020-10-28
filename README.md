@@ -74,7 +74,7 @@ $ python main.py --source media/videos/example.mp4
 ### Camera Calibration
 
 
-![](examples/ROI_selection.png)
+![](media/examples/ROI_selection.png)
 
 Distances are calculated by using a calibration for the position of the camera, 
 a region of interest is defined and an example of 1.5x1.5 meter is given to the system as input. 
