@@ -13,7 +13,7 @@ By default, the calculated distances are classified as 'Safe', 'Low risk' or 'Hi
 The system does not store any visual information, and when detected people will be displayed with a smiley overlay to prevent visual recognition.
 
 
-![](https://github.com/Amsterdam-AI-Team/1.5-meter-monitor/blob/master/media/README_files/emojis.png)
+![](https://github.com/Amsterdam-AI-Team/1.5-meter-monitor/blob/master/media/examples/emojis.png)
 
 ---
 
@@ -73,7 +73,7 @@ $ python main.py --source media/videos/example.mp4
 ### Camera Calibration
 
 
-![](https://github.com/Amsterdam-AI-Team/1.5-meter-monitor/blob/master/media/README_files/ROI_selection.png)
+![](https://github.com/Amsterdam-AI-Team/1.5-meter-monitor/blob/master/media/examples/ROI_selection.png)
 
 Distances are calculated by using a calibration for the position of the camera, 
 a region of interest is defined and an example of 1.5x1.5 meter is given to the system as input. 
