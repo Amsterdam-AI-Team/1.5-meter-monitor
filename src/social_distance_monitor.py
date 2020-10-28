@@ -90,7 +90,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                 save_path = str(Path(self.out) / Path(path_frame).name)
 
                 if self.save_txt or self.debug:
-                	# normalization gain whwh
+                    # normalization gain whwh
                     gn_whwh = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # pylint: disable=not-callable
                     print_details += '%gx%g ' % img.shape[2:]
 
@@ -287,6 +287,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
 
     def load_model(self):
         """ Load model """
+        Path(self.opt.weights).parent.mkdir(parents=True, exist_ok=True)
         model = attempt_load(self.opt.weights, map_location=self.device)  # load FP32 model
         if self.half:
             model.half()  # to FP16
