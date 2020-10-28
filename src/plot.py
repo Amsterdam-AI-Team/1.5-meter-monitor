@@ -54,6 +54,7 @@ def overlay_image_alpha(img, img_overlay, pos, alpha_mask): #pylint: disable=too
 
 
 
+
 def draw_boxes(objects_base, im0_arg, overlay_images, thickness, reference_dot=False):
     """ Draw bboxes and icons """
     for i in range(len(objects_base)):
