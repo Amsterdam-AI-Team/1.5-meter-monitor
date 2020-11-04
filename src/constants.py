@@ -4,6 +4,7 @@ Constants and current configuration of the 1.5 meter monitor
 # pylint: disable=invalid-name
 from dataclasses import dataclass
 
+
 @dataclass
 class Color: #pylint: disable=too-many-instance-attributes
     """ Common colors """
@@ -18,6 +19,10 @@ class Color: #pylint: disable=too-many-instance-attributes
     MINION_YELLOW = (51, 212, 244)
     MINION_RED = (57, 67, 208)
 
+
+BANNER = "./media/banners/banner_1.jpg"
+BANNER_WIDTH = 0.4
+LEGEND_HEIGHT = 0.2
 
 CLOSENESS_LEVELS = {
     0: {'name': 'safe', 'text': {'NL': 'Veilig', 'EN': 'Safe'},
