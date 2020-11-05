@@ -20,7 +20,7 @@ class Color: #pylint: disable=too-many-instance-attributes
     MINION_RED = (57, 67, 208)
 
 
-BANNER = "./media/banners/banner_1.jpg"
+BANNER = "./media/banners/poster_social distance-05.png"
 BANNER_WIDTH = 0.4
 LEGEND_HEIGHT = 0.2
 
