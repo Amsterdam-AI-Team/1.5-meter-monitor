@@ -51,8 +51,8 @@ def monitor_distance(opt):
     log_level = logging.DEBUG if opt.debug else logging.INFO
     logging.basicConfig(level=log_level)
 
-    calibrator = SizeCalibrator(opt.output)
-    calibrator.get_points(opt.source, opt.calibrate)
+    calibrator = SizeCalibrator(opt.source, opt.output)
+    calibrator.get_points(opt.calibrate)
     perspective_transform = calibrator.calculate_transformation()
     distance_w, distance_h = calibrator.calculate_distances()
 

@@ -18,10 +18,13 @@ class SizeCalibrator:
     bird view and for determining pixels per unit of length that are later used for
     transformations and for calculating actual distance between points
     """
-    def __init__(self, output_dir):
+    def __init__(self, source, output_dir):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
-        self.mouse_pts_file = os.path.join(output_dir, 'mouse_points')
+        self.source = source
+
+        source_suffix = self.source.replace('/', '--')
+        self.mouse_pts_file = os.path.join(output_dir, 'mouse_points_source_{}'.format(source_suffix))
 
         self.mouse_pts = []
         self.image = None
@@ -50,7 +53,7 @@ class SizeCalibrator:
 
             self.mouse_pts.append((x, y))
 
-    def get_points(self, source, force_calibrate=False):
+    def get_points(self, force_calibrate=False):
         """
         Get first frame and wait until 8 points are selected
         Set height and width for transformation calculation
@@ -59,10 +62,10 @@ class SizeCalibrator:
         cv2.namedWindow(window_name)
 
         # If --source argument is an integer, make it an integer
-        if source in [str(x) for x in range(0, 10)]:
-            source = int(source)
+        if self.source in [str(x) for x in range(0, 10)]:
+            self.source = int(self.source)
 
-        vid_cap = cv2.VideoCapture(source)
+        vid_cap = cv2.VideoCapture(self.source)
 
         # Get video height, width and fps
         self.height = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
