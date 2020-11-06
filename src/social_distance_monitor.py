@@ -298,7 +298,9 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
     def get_banner_icon(self):
         """ Set banner once in memory """
 
-        banner_icon = cv2.imread(BANNER, -1)
+        banner_icon = cv2.imread(BANNER, -1,)
+
+        banner_icon = cv2.cvtColor(banner_icon, cv2.COLOR_BGRA2BGR)
 
         return banner_icon
 

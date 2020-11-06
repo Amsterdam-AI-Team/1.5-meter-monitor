@@ -1,3 +1,4 @@
+
 # Social Distancing YOLOv5
 
 The 1.5 meter monitor is a system created to make users aware of social distancing measures.
@@ -68,7 +69,7 @@ $ python main.py --source media/videos/example.mp4
 
 ### Detection
 
-**\#TODO**
+For the detection of persons [YOLOv5](https://github.com/ultralytics/yolov5)  is used. YOLO (You Only Look Once), is a network for object detection.  It has fast inference speed, allowing for realtime processing and the performance is sufficient for the 1.5 meter monitor. The object detection task consists in determining the location on the image where certain objects are present, as well as classifying those objects. For the creation of the object detection model that is being used, the open dataset COCO (“Common Objects in Context”) has been used. COCO is a large-scale object detection, segmentation, and captioning dataset. It has over 330.000 images, with 250.000 people and 1.5 million objects annotated.
 
 
 ### Camera Calibration
