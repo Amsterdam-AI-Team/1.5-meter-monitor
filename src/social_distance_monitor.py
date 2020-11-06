@@ -1,7 +1,7 @@
 """
 Object detection and distance calculations for 1.5 meter monitor
 """
-# pylint: disable=wrong-import-position
+# pylint: disable=wrong-import-position, protected-access
 
 import sys
 import os
@@ -159,7 +159,8 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
                         im0 = cv2.resize(im0, self.resolution)
                     cv2.imshow(window_name, im0) # im0[:, ::-1, :]
                     if cv2.waitKey(1) == ord('q'):  # q to quit
-                        raise StopIteration
+                        os._exit(0)
+#                        raise StopIteration
 
                 # Save results
                 if self.save_img:
