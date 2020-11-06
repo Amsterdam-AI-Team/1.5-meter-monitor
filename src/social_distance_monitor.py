@@ -52,7 +52,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
         self.overlay_images = self.get_overlay_icons()
         self.banner_icon = self.get_banner_icon()
         self.dataset = self.set_dataloader()
-        self.meta_data_writer = self.get_meta_data_writer()
+        self.set_meta_data_writer()
 
         set_logging()
 
@@ -169,6 +169,7 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
 
         logger.info('Done. (%.3fs)', (time.time() - start_time))
 
+
     def monitor_distance_current_boxes(self, objects_base, im0_arg, thickness, dotted_line=False):
         """
         Calculate distances between the detected boxes and draw lines
@@ -228,13 +229,22 @@ class SocialDistanceMonitor: # pylint: disable=too-many-instance-attributes,no-s
 
         return risk_count
 
-    def get_meta_data_writer(self):
+    def set_meta_data_writer(self):
         """ Get meta data writer """
+        existing_file = self.get_meta_data_file()
+
         meta_data_path = os.path.join(self.out, datetime.now().strftime("%Y%m%d-%H%M%S") + '.csv')
         field_names = [level['name'] for level in CLOSENESS_LEVELS.values()] + ['timestamp']
-        meta_data_writer = csv.DictWriter(open(meta_data_path, 'w'), field_names)
-        meta_data_writer.writeheader()
-        return meta_data_writer
+        self.meta_data_file = open(meta_data_path, 'w')
+        self.meta_data_writer = csv.DictWriter(self.meta_data_file, field_names)
+        self.meta_data_writer.writeheader()
+
+        if existing_file:
+            existing_file.close()
+
+    def get_meta_data_file(self):
+        """ Get current meta data file """
+        return getattr(self, 'meta_data_file', None)
 
     def get_predictions(self, img):
         """ Get predictions """

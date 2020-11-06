@@ -6,6 +6,8 @@ Main file for 1.5 meter monitor
 import sys
 import argparse
 import logging
+import time
+import threading
 
 import torch
 
@@ -45,6 +47,19 @@ def arg_parser():
     return parser.parse_args()
 
 
+def rotate_meta_data_log(monitor):
+    """ Monitor the existing meta data log and open a new file if it becomes too large """
+    allowed_size = 10**7
+
+    while True:
+        time.sleep(900)
+        file_ = monitor.get_meta_data_file()
+        size = file_.tell()
+        if size > allowed_size:
+            logger.info('Rotating existing meta data log %s; Current size is: %s', file_.name, size)
+            monitor.set_meta_data_writer()
+
+
 def monitor_distance(opt):
     """ Code for calling calibration and main detection function """
     logger.debug(opt)
@@ -63,6 +78,9 @@ def monitor_distance(opt):
     }
 
     monitor = SocialDistanceMonitor(transform, opt)
+
+    log_monitor_thread = threading.Thread(target=rotate_meta_data_log, args=[monitor], name='MyMonitorThread')
+    log_monitor_thread.start()
 
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
